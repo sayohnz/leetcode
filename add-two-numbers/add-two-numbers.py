@@ -4,37 +4,32 @@
 #         self.val = val
 #         self.next = next
 class Solution:
+    def fill(self, cur, lx, rem):
+        while lx != None:
+            s = lx.val + rem
+            val = s % 10
+            rem = s // 10
+            cur.next = ListNode(val)
+            cur = cur.next
+            lx = lx.next
+            if lx == None and rem != 0:
+                cur.next = ListNode(rem)
+                cur = cur.next
+        
     def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:
-        val = (l1.val + l2.val) % 10
-        rem = (l1.val + l2.val) // 10
+        s = l1.val + l2.val
+        val = s  % 10
+        rem = s // 10
         l1 = l1.next
         l2 = l2.next
         ret = ListNode(val)
         cur = ret
         while l1 != None or l2 != None:
             if l2 == None:
-                while l1 != None:
-                    s = l1.val + rem
-                    val = s % 10
-                    rem = s // 10
-                    cur.next = ListNode(val)
-                    cur = cur.next
-                    l1 = l1.next
-                    if l1 == None and rem != 0:
-                        cur.next = ListNode(rem)
-                        cur = cur.next
+                self.fill(cur, l1, rem)
                 return ret
             if l1 == None:
-                while l2 != None:
-                    s = l2.val + rem
-                    val = s % 10
-                    rem = s // 10
-                    cur.next = ListNode(val)
-                    cur = cur.next
-                    l2 = l2.next
-                    if l2 == None and rem != 0:
-                        cur.next = ListNode(rem)
-                        cur = cur.next
+                self.fill(cur, l2, rem)
                 return ret
             
             s = l1.val + l2.val + rem
@@ -49,4 +44,3 @@ class Solution:
             cur.next = ListNode(rem)
             cur = cur.next
         return ret
-            
